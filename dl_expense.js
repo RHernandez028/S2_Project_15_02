@@ -31,10 +31,48 @@
       
 */
 
-window.addEventListener("onload", function() {
-      var changingCells = document.
-});
+//set up the page by calling the functions that will be called later
+window.onload = function() {
+      var changingCells = document.querySelectorAll('input[class="sum"]');
+      for (var i = 0; i < changingCells.length; i++) {
+            changingCells[i].onchange = calcExp; 
+      }
+      document.getElementById("submitButton").onclick = validateSummary;
+};
 
+//validates the data entry in the summary field
+function validateSummary() {
+      var summary = document.getElementById("summary");
+      if (summary.validity.valueMissing) {
+            summary.setCustomValidity("You must include a summary of the trip in your report.");
+      } else {
+            summary.setCustomValidity("");
+      }
+}
+
+
+//sums the values of input elements belonging to the sumClass of elements
+function calcClass(sumClass) {
+      var sumFields = document.getElementsByClassName("sumClass");
+      var sumTotal = 0;
+
+      for (var i = 0; i < sumFields.length; i++) {
+            var itemValue = parseFloat(sumFields[i].value);
+            if (!isNaN(itemValue)) {
+                  sumTotal += itemValue;
+            }
+      }
+      return sumTotal;
+}
+
+//Calculates the travel expenses from all categories and dates.
+function calcExp() {
+      var expTable = document.querySelectorAll("table#tavelTable tbody tr");
+      for (var i = 0; i < expTable.length; i++) {
+            document.getElementById("subtotal"+[i]) = calcClass(date[i]);
+            //step 8b.
+      }
+}
 
 
 
