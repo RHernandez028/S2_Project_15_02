@@ -32,8 +32,8 @@
 */
 
 //set up the page by calling the functions that will be called later
-window.onload = function() {
-      var changingCells = document.querySelectorAll('input[class="sum"]');
+window.onload = function () {
+      var changingCells = document.querySelectorAll('table#travelExp input.sum');
       for (var i = 0; i < changingCells.length; i++) {
             changingCells[i].onchange = calcExp; 
       }
@@ -53,7 +53,7 @@ function validateSummary() {
 
 //sums the values of input elements belonging to the sumClass of elements
 function calcClass(sumClass) {
-      var sumFields = document.getElementsByClassName("sumClass");
+      var sumFields = document.getElementsByClassName(sumClass);
       var sumTotal = 0;
 
       for (var i = 0; i < sumFields.length; i++) {
@@ -67,11 +67,18 @@ function calcClass(sumClass) {
 
 //Calculates the travel expenses from all categories and dates.
 function calcExp() {
-      var expTable = document.querySelectorAll("table#tavelTable tbody tr");
+      var expTable = document.querySelectorAll("table#travelExp tbody tr");
       for (var i = 0; i < expTable.length; i++) {
-            document.getElementById("subtotal"+[i]) = calcClass(date[i]);
-            //step 8b.
+            document.getElementById("subtotal" + i).value = formatNumber(calcClass("date" + i), 2);
       }
+      
+      //turns tha value calculated in the for loop into a number that can be then turned into a US currency format.
+      document.getElementById("transTotal").value = formatNumber(calcClass("trans"), 2);
+      document.getElementById("lodgeTotal").value = formatNumber(calcClass("lodge"), 2);
+      document.getElementById("mealTotal").value = formatNumber(calcClass("meal"), 2);
+      document.getElementById("otherTotal").value = formatNumber(calcClass("other"), 2);
+
+      document.getElementById("expTotal").value = formatUSCurrency(calcClass("sum")); 
 }
 
 
